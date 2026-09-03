@@ -1,5 +1,9 @@
 import XCTest
 
+// XCUIApplication and friends are main-actor-isolated in the iOS 18 SDK;
+// the whole test class runs on the main actor so every query and tap is legal
+// under strict concurrency.
+@MainActor
 final class TrainingSessionUITests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
