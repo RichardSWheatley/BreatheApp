@@ -3,7 +3,7 @@ import SwiftData
 import SwiftUI
 
 @main
-struct BreatheApp: App {
+struct BreatheApplication: App {
     private let container: ModelContainer
     @State private var appModel: AppModel
 

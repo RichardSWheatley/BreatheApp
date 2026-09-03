@@ -32,6 +32,7 @@ jobs:
       - name: Build and test on iPhone simulator
         run: |
           set -o pipefail
+          mkdir -p test-output
           xcodebuild test \
             -project BreatheApp.xcodeproj \
             -scheme BreatheApp \

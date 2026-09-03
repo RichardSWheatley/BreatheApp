@@ -112,7 +112,7 @@ struct ProfileStore {
     func assessments(of kind: SessionKind) throws -> [AssessmentRecord] {
         let raw = kind.rawValue
         let descriptor = FetchDescriptor<AssessmentRecord>(
-            predicate: #Predicate { $0.kindRaw == raw },
+            predicate: #Predicate<AssessmentRecord> { $0.kindRaw == raw },
             sortBy: [SortDescriptor(\.date)]
         )
         return try context.fetch(descriptor)
