@@ -1,0 +1,94 @@
+# XcodeGen project spec. Generate the Xcode project with:
+#   brew install xcodegen && xcodegen generate     (or: make project)
+name: BreatheApp
+options:
+  bundleIdPrefix: com.wheatbit
+  deploymentTarget:
+    iOS: "18.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+  xcodeVersion: "16.0"
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Automatic
+    ENABLE_USER_SCRIPT_SANDBOXING: "YES"
+    SWIFT_EMIT_LOC_STRINGS: "YES"
+
+packages:
+  BreatheKit:
+    path: Packages/BreatheKit
+
+targets:
+  BreatheApp:
+    type: application
+    platform: iOS
+    sources:
+      - path: App/Sources
+      - path: App/Resources
+    dependencies:
+      - package: BreatheKit
+        product: BreatheKit
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: Breathe
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UILaunchScreen: {}
+        UIBackgroundModes:
+          - audio
+        NSMotionUsageDescription: Breathe counts your paces during walking breath holds so a hold can end when you reach the target.
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        ITSAppUsesNonExemptEncryption: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.wheatbit.BreatheApp
+        TARGETED_DEVICE_FAMILY: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+
+  BreatheAppTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: App/Tests
+    dependencies:
+      - target: BreatheApp
+      - package: BreatheKit
+        product: BreatheKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.wheatbit.BreatheAppTests
+
+  BreatheAppUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: App/UITests
+    dependencies:
+      - target: BreatheApp
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.wheatbit.BreatheAppUITests
+
+schemes:
+  BreatheApp:
+    build:
+      targets:
+        BreatheApp: all
+        BreatheAppTests: [test]
+        BreatheAppUITests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      gatherCoverageData: true
+      targets:
+        - BreatheAppTests
+        - BreatheAppUITests
